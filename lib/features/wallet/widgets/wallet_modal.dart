@@ -54,11 +54,25 @@ class PaymentGatewayRoute {
     return 'gpay://upi/pay?pa=$upiId&pn=$encodedName&am=$formattedAmount&cu=INR&tn=$note';
   }
 
+  String buildTezUrl(double amount) {
+    final formattedAmount = amount.toStringAsFixed(2);
+    final encodedName = Uri.encodeComponent(payeeName);
+    final note = Uri.encodeComponent('T69 Esports Vault Deposit');
+    return 'tez://upi/pay?pa=$upiId&pn=$encodedName&am=$formattedAmount&cu=INR&tn=$note';
+  }
+
   String buildPaytmUrl(double amount) {
     final formattedAmount = amount.toStringAsFixed(2);
     final encodedName = Uri.encodeComponent(payeeName);
     final note = Uri.encodeComponent('T69 Esports Vault Deposit');
     return 'paytmmp://pay?pa=$upiId&pn=$encodedName&am=$formattedAmount&cu=INR&tn=$note';
+  }
+
+  String buildPaytmAltUrl(double amount) {
+    final formattedAmount = amount.toStringAsFixed(2);
+    final encodedName = Uri.encodeComponent(payeeName);
+    final note = Uri.encodeComponent('T69 Esports Vault Deposit');
+    return 'paytm://pay?pa=$upiId&pn=$encodedName&am=$formattedAmount&cu=INR&tn=$note';
   }
 }
 
@@ -171,28 +185,56 @@ class _WalletModalState extends ConsumerState<WalletModal> {
     );
   }
 
-  // 1-Tap Native UPI App Launcher with app detection and fallback
+  // 1-Tap Native UPI App Launcher with candidate schemes and fallback
   Future<void> _launchSpecificUpiApp({
     required String appName,
-    required String specificSchemeUrl,
+    List<String>? candidateUrls,
+    String? specificSchemeUrl,
     required String genericUpiUrl,
   }) async {
+    final urlsToTry = <String>[];
+    if (candidateUrls != null && candidateUrls.isNotEmpty) {
+      urlsToTry.addAll(candidateUrls);
+    } else if (specificSchemeUrl != null) {
+      urlsToTry.add(specificSchemeUrl);
+    }
+
     try {
-      // 1. Try launching specific app scheme (e.g. phonepe://, gpay://, paytmmp://)
-      final specificUri = Uri.parse(specificSchemeUrl);
-      if (await canLaunchUrl(specificUri)) {
-        final launched = await launchUrl(specificUri, mode: LaunchMode.externalNonBrowserApplication);
-        if (launched) return;
+      // 1. Try launching candidates with canLaunchUrl check first
+      for (final url in urlsToTry) {
+        final uri = Uri.parse(url);
+        try {
+          if (await canLaunchUrl(uri)) {
+            final launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
+            if (launched) return;
+          }
+        } catch (_) {}
       }
 
-      // 2. Try generic upi://pay scheme
+      // 2. Direct attempt (iOS canLaunchUrl can give false negatives for non-system apps)
+      for (final url in urlsToTry) {
+        final uri = Uri.parse(url);
+        try {
+          final launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
+          if (launched) return;
+        } catch (_) {}
+      }
+
+      // 3. Try generic upi://pay scheme
       final genericUri = Uri.parse(genericUpiUrl);
-      if (await canLaunchUrl(genericUri)) {
-        final launched = await launchUrl(genericUri, mode: LaunchMode.externalNonBrowserApplication);
-        if (launched) return;
-      }
+      try {
+        if (await canLaunchUrl(genericUri)) {
+          final launched = await launchUrl(genericUri, mode: LaunchMode.externalApplication);
+          if (launched) return;
+        }
+      } catch (_) {}
 
-      // 3. Neither worked -> App not installed on device
+      try {
+        final launched = await launchUrl(genericUri, mode: LaunchMode.externalApplication);
+        if (launched) return;
+      } catch (_) {}
+
+      // 4. Neither worked -> App not installed on device
       if (mounted) {
         _showAppNotInstalledDialog(appName);
       }
@@ -868,7 +910,7 @@ class _WalletModalState extends ConsumerState<WalletModal> {
             final currentGateway = _gateways[_currentGatewayIndex];
             _launchSpecificUpiApp(
               appName: 'PhonePe',
-              specificSchemeUrl: currentGateway.buildPhonePeUrl(parsed),
+              candidateUrls: [currentGateway.buildPhonePeUrl(parsed)],
               genericUpiUrl: currentGateway.buildUpiUrl(parsed),
             );
           },
@@ -905,7 +947,10 @@ class _WalletModalState extends ConsumerState<WalletModal> {
             final currentGateway = _gateways[_currentGatewayIndex];
             _launchSpecificUpiApp(
               appName: 'Google Pay',
-              specificSchemeUrl: currentGateway.buildGPayUrl(parsed),
+              candidateUrls: [
+                currentGateway.buildGPayUrl(parsed),
+                currentGateway.buildTezUrl(parsed),
+              ],
               genericUpiUrl: currentGateway.buildUpiUrl(parsed),
             );
           },
@@ -940,7 +985,10 @@ class _WalletModalState extends ConsumerState<WalletModal> {
             final currentGateway = _gateways[_currentGatewayIndex];
             _launchSpecificUpiApp(
               appName: 'Paytm',
-              specificSchemeUrl: currentGateway.buildPaytmUrl(parsed),
+              candidateUrls: [
+                currentGateway.buildPaytmUrl(parsed),
+                currentGateway.buildPaytmAltUrl(parsed),
+              ],
               genericUpiUrl: currentGateway.buildUpiUrl(parsed),
             );
           },
@@ -1431,7 +1479,7 @@ class _WalletModalState extends ConsumerState<WalletModal> {
               child: InkWell(
                 onTap: () => _launchSpecificUpiApp(
                   appName: 'PhonePe',
-                  specificSchemeUrl: gateway.buildPhonePeUrl(_selectedAddAmount),
+                  candidateUrls: [gateway.buildPhonePeUrl(_selectedAddAmount)],
                   genericUpiUrl: upiPayload,
                 ),
                 borderRadius: BorderRadius.circular(12),
@@ -1476,7 +1524,10 @@ class _WalletModalState extends ConsumerState<WalletModal> {
               child: InkWell(
                 onTap: () => _launchSpecificUpiApp(
                   appName: 'Google Pay',
-                  specificSchemeUrl: gateway.buildGPayUrl(_selectedAddAmount),
+                  candidateUrls: [
+                    gateway.buildGPayUrl(_selectedAddAmount),
+                    gateway.buildTezUrl(_selectedAddAmount),
+                  ],
                   genericUpiUrl: upiPayload,
                 ),
                 borderRadius: BorderRadius.circular(12),
@@ -1521,7 +1572,10 @@ class _WalletModalState extends ConsumerState<WalletModal> {
               child: InkWell(
                 onTap: () => _launchSpecificUpiApp(
                   appName: 'Paytm',
-                  specificSchemeUrl: gateway.buildPaytmUrl(_selectedAddAmount),
+                  candidateUrls: [
+                    gateway.buildPaytmUrl(_selectedAddAmount),
+                    gateway.buildPaytmAltUrl(_selectedAddAmount),
+                  ],
                   genericUpiUrl: upiPayload,
                 ),
                 borderRadius: BorderRadius.circular(12),

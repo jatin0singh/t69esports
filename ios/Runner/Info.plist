@@ -82,7 +82,11 @@
 		<string>upi</string>
 		<string>phonepe</string>
 		<string>gpay</string>
+		<string>tez</string>
 		<string>paytmmp</string>
+		<string>paytm</string>
+		<string>bhim</string>
+		<string>credpay</string>
 		<string>https</string>
 		<string>http</string>
 	</array>
