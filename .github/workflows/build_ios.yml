@@ -1,0 +1,44 @@
+name: Build iOS IPA
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch: # Allows manual trigger anytime from GitHub UI
+
+jobs:
+  build-ios:
+    name: Build iOS IPA (No-Codesign)
+    runs-on: macos-14 # Apple Silicon M-series runner on GitHub
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Get Dependencies
+        run: flutter pub get
+
+      - name: Build iOS Release Binary (No Code Sign)
+        run: flutter build ios --release --no-codesign
+
+      - name: Package into .ipa
+        run: |
+          mkdir -p build/ios/iphoneos/Payload
+          cp -r build/ios/iphoneos/Runner.app build/ios/iphoneos/Payload/
+          cd build/ios/iphoneos
+          zip -r -9 T69_Esports.ipa Payload
+          ls -lh T69_Esports.ipa
+
+      - name: Upload IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: T69_Esports_iOS
+          path: build/ios/iphoneos/T69_Esports.ipa
+          retention-days: 14

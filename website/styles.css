@@ -1,0 +1,284 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
+
+:root {
+  --primary: #00A3E0;
+  --primary-dark: #0288D1;
+  --primary-deep: #006097;
+  --primary-light: #E0F2FE;
+  --primary-muted: #BAE6FD;
+  --surface-blue-tile: #E1F5FE;
+  --surface-soft: #F1F5F9;
+  --bg-main: #F8FAFC;
+  --text-primary: #0F172A;
+  --text-secondary: #64748B;
+  --text-tertiary: #94A3B8;
+  --accent-orange: #FF7A00;
+  --accent-gold: #FFB800;
+  --accent-gold-bg: #FFF9E6;
+  --success: #10B981;
+  --success-bg: #ECFDF5;
+  --border: #E2E8F0;
+  --phonepe: #5F259F;
+  --gpay: #1A73E8;
+  --paytm: #002970;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: 'Outfit', sans-serif;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Header Gradient & Hero Wave Banner */
+.app-header-gradient {
+  background: linear-gradient(135deg, #0288D1 0%, #00A3E0 60%, #00B4D8 100%);
+}
+
+.hero-curve-bg {
+  background: linear-gradient(160deg, #0288D1 0%, #0099DA 50%, #00A3E0 100%);
+  border-bottom-left-radius: 48px;
+  border-bottom-right-radius: 48px;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .hero-curve-bg {
+    border-bottom-left-radius: 72px;
+    border-bottom-right-radius: 72px;
+  }
+}
+
+/* Tactical & App-Style Buttons */
+.btn-app-primary {
+  background: linear-gradient(135deg, #00A3E0 0%, #0288D1 100%);
+  color: #FFFFFF;
+  font-weight: 800;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px -5px rgba(0, 163, 224, 0.4);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-app-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px -4px rgba(0, 163, 224, 0.55);
+  background: linear-gradient(135deg, #00B4D8 0%, #0099DA 100%);
+}
+
+.btn-app-white {
+  background: #FFFFFF;
+  color: var(--primary-dark);
+  font-weight: 800;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-app-white:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px -4px rgba(0, 0, 0, 0.2);
+  color: var(--primary);
+}
+
+.btn-app-outline {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  color: #FFFFFF;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  font-weight: 700;
+  border-radius: 18px;
+  transition: all 0.25s ease;
+}
+
+.btn-app-outline:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: #FFFFFF;
+  transform: translateY(-2px);
+}
+
+/* App Card Styling (Exact match to app containers) */
+.app-card {
+  background: #FFFFFF;
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+  transition: all 0.25s ease;
+}
+
+.app-card:hover {
+  box-shadow: 0 12px 30px -4px rgba(0, 163, 224, 0.12);
+  border-color: var(--primary-muted);
+  transform: translateY(-3px);
+}
+
+.app-card-blue {
+  background: linear-gradient(145deg, #00A3E0 0%, #0288D1 100%);
+  border-radius: 24px;
+  box-shadow: 0 12px 28px -4px rgba(0, 163, 224, 0.4);
+  color: #FFFFFF;
+}
+
+/* Icon Containers Matching App */
+.app-icon-tile {
+  background-color: var(--surface-blue-tile);
+  color: var(--primary-dark);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid rgba(0, 163, 224, 0.15);
+  transition: all 0.25s ease;
+}
+
+.app-card:hover .app-icon-tile {
+  background-color: var(--primary);
+  color: #FFFFFF;
+  transform: scale(1.06);
+}
+
+/* Smartphone Mockup Frame */
+.phone-mockup-wrap {
+  position: relative;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.phone-mockup-frame {
+  background: #0F172A;
+  border-radius: 46px;
+  padding: 10px;
+  box-shadow: 0 25px 60px -12px rgba(2, 136, 209, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.phone-mockup-inner {
+  background: #F8FAFC;
+  border-radius: 38px;
+  overflow: hidden;
+  position: relative;
+}
+
+.phone-notch {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 18px;
+  background: #0F172A;
+  border-radius: 12px;
+  z-index: 30;
+}
+
+/* Floating Badges */
+.floating-glass-badge {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  border: 1.5px solid #FFFFFF;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.12);
+  animation: floatSlow 4s ease-in-out infinite;
+}
+
+.floating-glass-badge-alt {
+  animation: floatSlow 4s ease-in-out infinite 2s;
+}
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Shimmer on Download Button */
+.shimmer-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 80%
+  );
+  transform: rotate(30deg);
+  animation: shimmerMove 3.5s infinite;
+}
+
+@keyframes shimmerMove {
+  0% { transform: translateX(-100%) rotate(30deg); }
+  100% { transform: translateX(100%) rotate(30deg); }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+::-webkit-scrollbar-thumb {
+  background: #00A3E0;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #0288D1;
+}
+
+/* Pulse Glow Badge */
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #10B981;
+  position: relative;
+}
+
+.pulse-dot::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: 50%;
+  background-color: rgba(16, 185, 129, 0.4);
+  animation: pulseAnim 2s infinite;
+}
+
+@keyframes pulseAnim {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}

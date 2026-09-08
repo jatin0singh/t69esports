@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>T69 Esports - Download Android App | Daily Free Fire & BGMI Tournaments</title>
+  
+  <!-- SEO & Meta Tags -->
+  <meta name="description" content="Download T69 Esports Android APK. India's premier daily Free Fire and BGMI esports arena. Join 1v1 Clash Squad, Duo, and Squad tournaments with automated room credentials and instant UPI payouts." />
+  <meta name="keywords" content="T69 Esports, Free Fire Tournament App, BGMI Tournament App, Esports APK, Play Free Fire for cash, Instant UPI Gaming App, Clash Squad 1v1" />
+  
+  <!-- OpenGraph / Social Share -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="T69 Esports - Daily Free Fire & BGMI Tournaments" />
+  <meta property="og:description" content="Download T69 Esports APK (v1.0.4). Play daily custom room tournaments and withdraw winnings instantly via PhonePe, GPay, and Paytm!" />
+  <meta property="og:image" content="assets/t69_logo.png" />
+  
+  <link rel="icon" type="image/png" href="assets/t69_logo.png" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            appPrimary: '#00A3E0',
+            appPrimaryDark: '#0288D1',
+            appPrimaryLight: '#E0F2FE',
+            appSurfaceTile: '#E1F5FE',
+            appSurfaceSoft: '#F1F5F9',
+            appBg: '#F8FAFC',
+            appText: '#0F172A',
+            appTextMuted: '#64748B',
+            appGold: '#FFB800',
+            appOrange: '#FF7A00',
+            appGreen: '#10B981',
+          },
+          fontFamily: {
+            heading: ['Outfit', 'sans-serif'],
+            body: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom Theme Stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="bg-appBg text-appText font-body antialiased selection:bg-appPrimary selection:text-white">
+
+  <!-- Download Toast Notification -->
+  <div id="downloadToast" class="fixed top-24 right-4 z-50 hidden items-center gap-3 bg-white border border-appGreen/40 shadow-2xl shadow-appGreen/20 px-5 py-4 rounded-2xl backdrop-blur-xl animate-bounce">
+    <div class="w-10 h-10 rounded-full bg-appGreen/15 flex items-center justify-center text-appGreen">
+      <i data-lucide="arrow-down-to-line" class="w-5 h-5"></i>
+    </div>
+    <div>
+      <p class="font-heading font-bold text-base text-appText">Download Started!</p>
+      <p class="text-xs text-appTextMuted">t69esports-release.apk (38 MB) is downloading.</p>
+    </div>
+  </div>
+
+  <!-- Header / Navigation Bar (Matching App Blue Header Tone) -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo & Slogan -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-sky-400 to-blue-600 p-1 flex items-center justify-center shadow-md shadow-sky-500/20 group-hover:scale-105 transition">
+          <img src="assets/t69_logo.png" alt="T69 Esports" class="w-10 h-10 object-contain rounded-xl" />
+        </div>
+        <div>
+          <span class="font-heading font-black text-2xl tracking-tight text-appText flex items-center gap-1">
+            T69 <span class="text-appPrimaryDark">ESPORTS</span>
+          </span>
+          <span class="block text-[10px] font-bold tracking-widest text-appTextMuted uppercase -mt-1">Play • Compete • Win</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden md:flex items-center gap-7 text-sm font-bold text-slate-600">
+        <a href="#features" class="hover:text-appPrimaryDark transition">Features</a>
+        <a href="#games" class="hover:text-appPrimaryDark transition">Games & Modes</a>
+        <a href="#vault" class="hover:text-appPrimaryDark transition">Arena Vault</a>
+        <a href="#lobbies" class="hover:text-appPrimaryDark transition">Live Lobbies</a>
+        <a href="#install-guide" class="hover:text-appPrimaryDark transition">Install Guide</a>
+        <a href="#faq" class="hover:text-appPrimaryDark transition">FAQ</a>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="hidden sm:flex items-center gap-3">
+        <a href="download/t69esports-release.apk" download="t69esports-release.apk" class="download-trigger btn-app-primary px-5 py-2.5 rounded-xl text-sm flex items-center gap-2">
+          <i data-lucide="download" class="w-4 h-4"></i>
+          <span>DOWNLOAD APK</span>
+          <span class="text-[10px] bg-white/20 px-1.5 py-0.5 rounded font-mono">v1.0.4</span>
+        </a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button id="mobileMenuBtn" class="md:hidden text-slate-700 hover:text-appPrimary p-2">
+        <i data-lucide="menu" class="w-7 h-7"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobileMenu" class="hidden md:hidden bg-white border-b border-slate-200 px-6 py-5 space-y-4 shadow-xl">
+      <a href="#features" class="block text-slate-700 font-bold hover:text-appPrimary">Features</a>
+      <a href="#games" class="block text-slate-700 font-bold hover:text-appPrimary">Games & Modes</a>
+      <a href="#vault" class="block text-slate-700 font-bold hover:text-appPrimary">Arena Vault & Payments</a>
+      <a href="#lobbies" class="block text-slate-700 font-bold hover:text-appPrimary">Live Lobbies</a>
+      <a href="#install-guide" class="block text-slate-700 font-bold hover:text-appPrimary">How to Install</a>
+      <a href="#faq" class="block text-slate-700 font-bold hover:text-appPrimary">FAQ</a>
+      <a href="download/t69esports-release.apk" download="t69esports-release.apk" class="download-trigger btn-app-primary w-full py-3.5 rounded-xl text-center flex items-center justify-center gap-2 text-base">
+        <i data-lucide="download" class="w-5 h-5"></i>
+        <span>DOWNLOAD APK (38 MB)</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero Section with Signature Curved Blue App Header -->
+  <section class="hero-curve-bg text-white pt-10 pb-20 sm:pt-14 sm:pb-28 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Left Hero Content -->
+        <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+          
+          <!-- Trust Badge -->
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-white text-xs sm:text-sm font-bold tracking-wide">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>🏆 INDIA'S #1 VERIFIED DAILY ESPORTS ARENA</span>
+          </div>
+
+          <!-- Headline -->
+          <h1 class="text-4xl sm:text-6xl font-black font-heading leading-tight tracking-tight">
+            PLAY FREE FIRE & BGMI. <br />
+            <span class="text-white underline decoration-appGold decoration-wavy decoration-2">
+              WIN REAL CASH DAILY.
+            </span>
+          </h1>
+
+          <!-- Subtitle -->
+          <p class="text-base sm:text-lg text-sky-100 max-w-xl mx-auto lg:mx-0 font-medium leading-relaxed">
+            Join verified 1v1 Clash Squad, Duo, and Squad custom rooms with automated credentials, live kill rewards, and <strong class="text-white font-bold">instant 15-minute UPI cashouts</strong> to PhonePe, Google Pay, and Paytm.
+          </p>
+
+          <!-- Download Action Card -->
+          <div class="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+            <a href="download/t69esports-release.apk" download="t69esports-release.apk" class="download-trigger shimmer-btn btn-app-white w-full sm:w-auto px-8 py-4 rounded-2xl text-lg flex items-center justify-center gap-3 group">
+              <i data-lucide="download" class="w-6 h-6 text-appPrimaryDark group-hover:translate-y-0.5 transition"></i>
+              <div class="text-left">
+                <span class="block font-black font-heading text-lg leading-none">DOWNLOAD ANDROID APK</span>
+                <span class="block text-xs font-semibold text-slate-500 mt-1">v1.0.4 • 38 MB • 100% Free & Safe</span>
+              </div>
+            </a>
+
+            <a href="#vault" class="btn-app-outline w-full sm:w-auto px-6 py-4 rounded-2xl text-base flex items-center justify-center gap-2">
+              <i data-lucide="wallet" class="w-5 h-5"></i>
+              <span>Explore Arena Vault</span>
+            </a>
+          </div>
+
+          <!-- App Security & Bonus Highlights -->
+          <div class="pt-3 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs sm:text-sm font-semibold text-sky-100">
+            <div class="flex items-center gap-2">
+              <i data-lucide="shield-check" class="w-4 h-4 text-emerald-300"></i>
+              <span>Play Protect Certified</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="gift" class="w-4 h-4 text-appGold"></i>
+              <span>₹50 Welcome Bonus</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="zap" class="w-4 h-4 text-sky-200"></i>
+              <span>15-Min Fast Withdrawals</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Smartphone App Showcase with Real Screens -->
+        <div class="lg:col-span-5 relative">
+          
+          <!-- Floating Badge 1: Instant UPI Payout -->
+          <div class="hidden sm:flex floating-glass-badge absolute -top-4 -left-8 z-30 p-3.5 items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600 font-bold">
+              <i data-lucide="arrow-down-right" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Winning Cashout</p>
+              <p class="font-heading font-black text-sm text-slate-800">₹85.00 Credited</p>
+            </div>
+          </div>
+
+          <!-- Floating Badge 2: 1-Tap UPI Launcher -->
+          <div class="hidden sm:flex floating-glass-badge floating-glass-badge-alt absolute -bottom-6 -right-6 z-30 p-3.5 items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-sky-100 flex items-center justify-center text-appPrimary font-bold">
+              <i data-lucide="zap" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">1-Tap Direct Pay</p>
+              <p class="font-heading font-black text-sm text-slate-800">PhonePe • GPay • Paytm</p>
+            </div>
+          </div>
+
+          <!-- Phone Mockup Container -->
+          <div class="phone-mockup-wrap">
+            <div class="phone-mockup-frame">
+              <div class="phone-notch"></div>
+              <div class="phone-mockup-inner">
+                <img src="assets/app_screen_home.png" alt="T69 Esports Android App Interface" class="w-full h-auto object-cover block shadow-inner" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Stats Strip (Exact App Metrics) -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 sm:-mt-12 relative z-20">
+    <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-200/60 border border-slate-200/80 grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+      <div class="space-y-1">
+        <p class="font-heading font-black text-3xl sm:text-4xl text-appPrimaryDark">₹5,00,000+</p>
+        <p class="text-xs sm:text-sm font-bold text-slate-500 uppercase tracking-wider">Prizes Distributed</p>
+      </div>
+      <div class="space-y-1">
+        <p class="font-heading font-black text-3xl sm:text-4xl text-appPrimaryDark">15,000+</p>
+        <p class="text-xs sm:text-sm font-bold text-slate-500 uppercase tracking-wider">Active Esports Gamers</p>
+      </div>
+      <div class="space-y-1">
+        <p class="font-heading font-black text-3xl sm:text-4xl text-appPrimaryDark">4,500+</p>
+        <p class="text-xs sm:text-sm font-bold text-slate-500 uppercase tracking-wider">Custom Matches Hosted</p>
+      </div>
+      <div class="space-y-1">
+        <p class="font-heading font-black text-3xl sm:text-4xl text-appGreen">⏱️ 15 Mins</p>
+        <p class="text-xs sm:text-sm font-bold text-slate-500 uppercase tracking-wider">Average UPI Withdrawal</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature Grid (Matching App Design & Blue Tiles) -->
+  <section id="features" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 text-appPrimaryDark font-bold text-xs uppercase tracking-wider">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+        <span>BUILT FOR SERIOUS COMPETITIVE GAMERS</span>
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-black font-heading text-appText">
+        Why Gamers Choose <span class="text-appPrimaryDark">T69 Esports</span>
+      </h2>
+      <p class="text-slate-600 font-medium">
+        Experience smooth match matchmaking, automated room credentials, instant prize settlement, and 100% fair play anti-cheat protection.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      
+      <!-- Feature 1: Automated Room Credentials -->
+      <div class="app-card p-7 space-y-4">
+        <div class="w-14 h-14 app-icon-tile">
+          <i data-lucide="key-round" class="w-7 h-7"></i>
+        </div>
+        <h3 class="font-heading font-bold text-xl text-appText">Automated Room ID & Pass</h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          Never wait for admin messages. Room ID and password unlock automatically in-app 15 minutes before the match start time.
+        </p>
+      </div>
+
+      <!-- Feature 2: 1-Tap UPI Payments & Instant Withdrawals -->
+      <div class="app-card p-7 space-y-4">
+        <div class="w-14 h-14 app-icon-tile">
+          <i data-lucide="zap" class="w-7 h-7"></i>
+        </div>
+        <h3 class="font-heading font-bold text-xl text-appText">1-Tap Fast UPI Deposits</h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          Deposit directly via PhonePe, Google Pay, and Paytm without manual copying. Automated amount pre-filling for instant credits.
+        </p>
+      </div>
+
+      <!-- Feature 3: Anti-Cheat & 100% Fair Play -->
+      <div class="app-card p-7 space-y-4">
+        <div class="w-14 h-14 app-icon-tile">
+          <i data-lucide="shield-check" class="w-7 h-7"></i>
+        </div>
+        <h3 class="font-heading font-bold text-xl text-appText">Strict Anti-Cheat & Fair Play</h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          Zero tolerance for hackers or emulators in mobile lobbies. Every result is verified with end-of-match screenshots and UTR validation.
+        </p>
+      </div>
+
+      <!-- Feature 4: 1v1 Clash Squad & Squad Scrims -->
+      <div class="app-card p-7 space-y-4">
+        <div class="w-14 h-14 app-icon-tile">
+          <i data-lucide="swords" class="w-7 h-7"></i>
+        </div>
+        <h3 class="font-heading font-bold text-xl text-appText">1v1, 2v2 & 4v4 Clash Squad</h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          Challenge rivals in intense 1v1 Clash Squad matches with winner-takes-all stakes and rapid prize transfers.
+        </p>
+      </div>
+
+      <!-- Feature 5: Host Match Compensation Rewards -->
+      <div class="app-card p-7 space-y-4">
+        <div class="w-14 h-14 app-icon-tile">
+          <i data-lucide="award" class="w-7 h-7"></i>
+        </div>
+        <h3 class="font-heading font-bold text-xl text-appText">Host Match & Earn Cash</h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          Create and host custom rooms for your guild or friends and earn dedicated host match rewards credited straight to your vault.
+        </p>
+      </div>
+
+      <!-- Feature 6: 24/7 Dedicated Player Support -->
+      <div class="app-card p-7 space-y-4">
+        <div class="w-14 h-14 app-icon-tile">
+          <i data-lucide="headphones" class="w-7 h-7"></i>
+        </div>
+        <h3 class="font-heading font-bold text-xl text-appText">24/7 WhatsApp & Discord Support</h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          Direct human support available 24/7 on WhatsApp and Discord for payment queries, disputes, and tournament rules assistance.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Games & Tournament Modes Showcase -->
+  <section id="games" class="py-20 bg-slate-100/70 border-y border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-14 space-y-3">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 text-appPrimaryDark font-bold text-xs uppercase tracking-wider">
+          <i data-lucide="gamepad-2" class="w-3.5 h-3.5"></i>
+          <span>MULTIPLE COMPETITIVE ARENAS</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-black font-heading text-appText">
+          Supported Games & Match Formats
+        </h2>
+        <p class="text-slate-600 font-medium">
+          Choose your battleground, select your entry tier, and compete for massive daily prize pools.
+        </p>
+      </div>
+
+      <!-- Game Cards Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Game 1: Free Fire & FF MAX -->
+        <div class="app-card overflow-hidden flex flex-col justify-between">
+          <div class="p-8 space-y-6">
+            <div class="flex items-center justify-between">
+              <div class="w-14 h-14 rounded-2xl bg-orange-500/10 text-orange-600 flex items-center justify-center font-black text-2xl font-heading border border-orange-500/20">
+                🔥
+              </div>
+              <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                Daily Active Lobbies
+              </span>
+            </div>
+
+            <div>
+              <h3 class="font-heading font-bold text-2xl text-appText">Free Fire & FF MAX</h3>
+              <p class="text-sm text-slate-600 mt-2 leading-relaxed">
+                India's biggest daily Free Fire community. Play 1v1 Clash Squad, 2v2 Duo, 4v4 Squad, and 48-Player Full Map Battle Royale with per-kill bounties.
+              </p>
+            </div>
+
+            <div class="space-y-2.5 pt-2 border-t border-slate-100">
+              <div class="flex items-center justify-between text-xs font-semibold text-slate-600">
+                <span>⚡ Clash Squad 1v1:</span>
+                <span class="text-appPrimaryDark font-bold font-mono">₹10 - ₹200 Entry</span>
+              </div>
+              <div class="flex items-center justify-between text-xs font-semibold text-slate-600">
+                <span>🏆 Full Map BR Solos & Squads:</span>
+                <span class="text-appPrimaryDark font-bold font-mono">₹500 - ₹2,500 Pool</span>
+              </div>
+              <div class="flex items-center justify-between text-xs font-semibold text-slate-600">
+                <span>🎯 Per Kill Bounty:</span>
+                <span class="text-emerald-600 font-bold font-mono">₹10 - ₹30 / Kill</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-6 bg-slate-50 border-t border-slate-100">
+            <a href="download/t69esports-release.apk" download="t69esports-release.apk" class="download-trigger btn-app-primary w-full py-3 rounded-xl text-sm flex items-center justify-center gap-2">
+              <i data-lucide="play" class="w-4 h-4 fill-current"></i>
+              <span>Join Free Fire Lobbies</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Game 2: BGMI (Battlegrounds Mobile India) -->
+        <div class="app-card overflow-hidden flex flex-col justify-between">
+          <div class="p-8 space-y-6">
+            <div class="flex items-center justify-between">
+              <div class="w-14 h-14 rounded-2xl bg-blue-500/10 text-blue-600 flex items-center justify-center font-black text-2xl font-heading border border-blue-500/20">
+                🛡️
+              </div>
+              <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                Scrims & Classic
+              </span>
+            </div>
+
+            <div>
+              <h3 class="font-heading font-bold text-2xl text-appText">BGMI (Battlegrounds)</h3>
+              <p class="text-sm text-slate-600 mt-2 leading-relaxed">
+                High-stakes custom room tournaments on Erangel, Miramar, and Sanhok. Level 3 anti-cheat verification for all esports tier matches.
+              </p>
+            </div>
+
+            <div class="space-y-2.5 pt-2 border-t border-slate-100">
+              <div class="flex items-center justify-between text-xs font-semibold text-slate-600">
+                <span>🗺️ Erangel Classic 100-Player:</span>
+                <span class="text-appPrimaryDark font-bold font-mono">₹1,000 - ₹5,000 Pool</span>
+              </div>
+              <div class="flex items-center justify-between text-xs font-semibold text-slate-600">
+                <span>🔫 4v4 TDM Arena Clash:</span>
+                <span class="text-appPrimaryDark font-bold font-mono">₹50 - ₹500 Entry</span>
+              </div>
+              <div class="flex items-center justify-between text-xs font-semibold text-slate-600">
+                <span>📊 Live Kill Scoreboards:</span>
+                <span class="text-emerald-600 font-bold font-mono">Automated Settlement</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-6 bg-slate-50 border-t border-slate-100">
+            <a href="download/t69esports-release.apk" download="t69esports-release.apk" class="download-trigger btn-app-primary w-full py-3 rounded-xl text-sm flex items-center justify-center gap-2">
+              <i data-lucide="play" class="w-4 h-4 fill-current"></i>
+              <span>Join BGMI Tournaments</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Game 3: Daily Scrims & Match Pass -->
+        <div class="app-card overflow-hidden flex flex-col justify-between">
+          <div class="p-8 space-y-6">
+            <div class="flex items-center justify-between">
+              <div class="w-14 h-14 rounded-2xl bg-amber-500/10 text-amber-600 flex items-center justify-center font-black text-2xl font-heading border border-amber-500/20">
+                ⚡
+              </div>
+              <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
+                <i data-lucide="crown" class="w-3.5 h-3.5"></i>
+                Tiered Rewards
+              </span>
+            </div>
+
+            <div>
+              <h3 class="font-heading font-bold text-2xl text-appText">Daily Scrims & Pass</h3>
+              <p class="text-sm text-slate-600 mt-2 leading-relaxed">
+                Tier-1 and Tier-2 practice scrims for competitive clans. Unlock the T69 Match Pass for discounted entries and exclusive tournament leaderboards.
+              </p>
+            </div>
+
+            <div class="space-y-2.5 pt-2 border-t border-slate-100">
+              <div class="flex items-center justify-between text-xs font-semibold text-slate-600">
+                <span>🎖️ Clan Practice Scrims:</span>
+                <span class="text-appPrimaryDark font-bold font-mono">Hourly Slots</span>
+              </div>
+              <div class="flex items-center justify-between text-xs font-semibold text-slate-600">
+                <span>🎟️ T69 Monthly Match Pass:</span>
+                <span class="text-appPrimaryDark font-bold font-mono">50% Off Match Fees</span>
+              </div>
+              <div class="flex items-center justify-between text-xs font-semibold text-slate-600">
+                <span>📈 Monthly Leaderboard Prize:</span>
+                <span class="text-emerald-600 font-bold font-mono">₹25,000 Top Clan</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-6 bg-slate-50 border-t border-slate-100">
+            <a href="download/t69esports-release.apk" download="t69esports-release.apk" class="download-trigger btn-app-primary w-full py-3 rounded-xl text-sm flex items-center justify-center gap-2">
+              <i data-lucide="play" class="w-4 h-4 fill-current"></i>
+              <span>View Match Pass</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Arena Vault & Instant UPI Payments (Matching App Flow) -->
+  <section id="vault" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      <!-- Left: Explanatory Copy -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 text-appPrimaryDark font-bold text-xs uppercase tracking-wider">
+          <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+          <span>SEAMLESS ARENA VAULT SYSTEM</span>
+        </div>
+        
+        <h2 class="text-3xl sm:text-4xl font-black font-heading text-appText leading-tight">
+          Instant 1-Tap UPI Deposits & <br />
+          <span class="text-appPrimaryDark">15-Minute Winning Withdrawals</span>
+        </h2>
+        
+        <p class="text-slate-600 font-medium leading-relaxed">
+          Our specialized Arena Vault separates <strong class="text-slate-900">Deposit Cash</strong> (for lobby entries) and <strong class="text-slate-900">Winning Cash</strong> (withdrawable to any UPI VPA or Bank Account).
+        </p>
+
+        <!-- Feature List -->
+        <div class="space-y-4 pt-2">
+          
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex-shrink-0 flex items-center justify-center font-bold">
+              🟣
+            </div>
+            <div>
+              <h4 class="font-heading font-bold text-base text-appText">1-Tap Direct UPI Launcher</h4>
+              <p class="text-xs text-slate-600 mt-0.5">
+                Tap PhonePe, Google Pay, or Paytm in-app to auto-fill the deposit amount with zero manual copying.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl bg-sky-100 text-appPrimaryDark flex-shrink-0 flex items-center justify-center font-bold">
+              📷
+            </div>
+            <div>
+              <h4 class="font-heading font-bold text-base text-appText">Dynamic Auto-Amount QR Code</h4>
+              <p class="text-xs text-slate-600 mt-0.5">
+                Scan with any UPI scanner app (BHIM, Cred, Amazon Pay). Pre-fills the exact rupees automatically.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex-shrink-0 flex items-center justify-center font-bold">
+              ⏱️
+            </div>
+            <div>
+              <h4 class="font-heading font-bold text-base text-appText">15 - 30 Minute Fast Winning Cashouts</h4>
+              <p class="text-xs text-slate-600 mt-0.5">
+                Won a tournament? Request instant withdrawal to your UPI ID or Bank Account with zero hidden fees.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="pt-4">
+          <a href="download/t69esports-release.apk" download="t69esports-release.apk" class="download-trigger btn-app-primary px-7 py-3.5 rounded-2xl text-base flex items-center gap-2.5 inline-flex">
+            <i data-lucide="download" class="w-5 h-5"></i>
+            <span>Get App & Add ₹50 Bonus</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: Actual In-App Wallet Modal Screenshot Showcase -->
+      <div class="lg:col-span-6">
+        <div class="phone-mockup-wrap">
+          <div class="phone-mockup-frame">
+            <div class="phone-notch"></div>
+            <div class="phone-mockup-inner">
+              <img src="assets/app_screen_wallet.png" alt="T69 Esports In-App Wallet & Deposit Modal" class="w-full h-auto object-cover block shadow-inner" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Live Simulated Lobbies Preview -->
+  <section id="lobbies" class="py-20 bg-slate-100/70 border-y border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row items-center justify-between mb-12 gap-4">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs uppercase tracking-wider mb-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>LIVE MATCHES FILLING NOW</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-black font-heading text-appText">
+            Upcoming Tournaments & Custom Rooms
+          </h2>
+        </div>
+
+        <a href="download/t69esports-release.apk" download="t69esports-release.apk" class="download-trigger btn-app-primary px-6 py-3 rounded-xl text-sm flex items-center gap-2">
+          <i data-lucide="download" class="w-4 h-4"></i>
+          <span>Download App to Join</span>
+        </a>
+      </div>
+
+      <!-- Lobbies Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Lobby 1 -->
+        <div class="app-card p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-1 rounded-lg bg-orange-100 text-orange-700 text-xs font-bold font-mono">
+              🔥 Free Fire • Clash Squad
+            </span>
+            <span class="text-xs font-bold text-emerald-600 flex items-center gap-1">
+              <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+              Starts in 12m
+            </span>
+          </div>
+
+          <div>
+            <h4 class="font-heading font-bold text-lg text-appText">FF Clash Squad 1v1 - Match #108</h4>
+            <p class="text-xs text-slate-500 mt-1">Map: Bermuda • Weapons: Unlimited Ammo</p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 py-3 px-4 bg-slate-50 rounded-2xl border border-slate-100">
+            <div>
+              <p class="text-[11px] font-bold text-slate-400 uppercase">Entry Fee</p>
+              <p class="font-heading font-black text-lg text-appPrimaryDark">₹50</p>
+            </div>
+            <div class="text-right">
+              <p class="text-[11px] font-bold text-slate-400 uppercase">Winner Prize</p>
+              <p class="font-heading font-black text-lg text-emerald-600">₹85.00</p>
+            </div>
+          </div>
+
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-xs font-bold text-slate-500">
+              <span>Slots Filled:</span>
+              <span class="text-appPrimaryDark">1 / 2 Joined</span>
+            </div>
+            <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+              <div class="bg-appPrimary h-full rounded-full w-1/2"></div>
+            </div>
+          </div>
+
+          <a href="download/t69esports-release.apk" download="t69esports-release.apk" class="download-trigger btn-app-primary w-full py-2.5 rounded-xl text-xs flex items-center justify-center gap-2">
+            <span>REGISTER IN APP</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+
+        <!-- Lobby 2 -->
+        <div class="app-card p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-1 rounded-lg bg-blue-100 text-blue-700 text-xs font-bold font-mono">
+              🛡️ BGMI • Squad Classic
+            </span>
+            <span class="text-xs font-bold text-emerald-600 flex items-center gap-1">
+              <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+              Starts in 25m
+            </span>
+          </div>
+
+          <div>
+            <h4 class="font-heading font-bold text-lg text-appText">BGMI Squad Erangel Custom #42</h4>
+            <p class="text-xs text-slate-500 mt-1">Map: Erangel • TPP • Anti-Cheat Enabled</p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 py-3 px-4 bg-slate-50 rounded-2xl border border-slate-100">
+            <div>
+              <p class="text-[11px] font-bold text-slate-400 uppercase">Entry / Squad</p>
+              <p class="font-heading font-black text-lg text-appPrimaryDark">₹80</p>
+            </div>
+            <div class="text-right">
+              <p class="text-[11px] font-bold text-slate-400 uppercase">Total Prize Pool</p>
+              <p class="font-heading font-black text-lg text-emerald-600">₹1,200</p>
+            </div>
+          </div>
+
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-xs font-bold text-slate-500">
+              <span>Slots Filled:</span>
+              <span class="text-appPrimaryDark">84 / 100 Joined</span>
+            </div>
+            <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+              <div class="bg-appPrimary h-full rounded-full w-[84%]"></div>
+            </div>
+          </div>
+
+          <a href="download/t69esports-release.apk" download="t69esports-release.apk" class="download-trigger btn-app-primary w-full py-2.5 rounded-xl text-xs flex items-center justify-center gap-2">
+            <span>REGISTER IN APP</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+
+        <!-- Lobby 3 -->
+        <div class="app-card p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-1 rounded-lg bg-orange-100 text-orange-700 text-xs font-bold font-mono">
+              🔥 Free Fire • 4v4 Clash
+            </span>
+            <span class="text-xs font-bold text-emerald-600 flex items-center gap-1">
+              <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+              Starts in 40m
+            </span>
+          </div>
+
+          <div>
+            <h4 class="font-heading font-bold text-lg text-appText">FF 4v4 Squad Clash - Lobby #77</h4>
+            <p class="text-xs text-slate-500 mt-1">Map: Kalahari • Full Competitive Rules</p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 py-3 px-4 bg-slate-50 rounded-2xl border border-slate-100">
+            <div>
+              <p class="text-[11px] font-bold text-slate-400 uppercase">Entry / Player</p>
+              <p class="font-heading font-black text-lg text-appPrimaryDark">₹30</p>
+            </div>
+            <div class="text-right">
+              <p class="text-[11px] font-bold text-slate-400 uppercase">Winner Squad</p>
+              <p class="font-heading font-black text-lg text-emerald-600">₹200.00</p>
+            </div>
+          </div>
+
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-xs font-bold text-slate-500">
+              <span>Slots Filled:</span>
+              <span class="text-appPrimaryDark">7 / 8 Joined</span>
+            </div>
+            <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+              <div class="bg-appPrimary h-full rounded-full w-[87%]"></div>
+            </div>
+          </div>
+
+          <a href="download/t69esports-release.apk" download="t69esports-release.apk" class="download-trigger btn-app-primary w-full py-2.5 rounded-xl text-xs flex items-center justify-center gap-2">
+            <span>REGISTER IN APP</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 3-Step Easy Installation Guide -->
+  <section id="install-guide" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 text-appPrimaryDark font-bold text-xs uppercase tracking-wider">
+        <i data-lucide="download" class="w-3.5 h-3.5"></i>
+        <span>SIMPLE 60-SECOND SETUP</span>
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-black font-heading text-appText">
+        How to Install T69 Esports on Android
+      </h2>
+      <p class="text-slate-600 font-medium">
+        Follow these 3 easy steps to download, install, and jump into daily cash tournaments.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+      
+      <!-- Step 1 -->
+      <div class="app-card p-8 text-center space-y-4 relative">
+        <div class="w-16 h-16 rounded-2xl bg-sky-500/10 text-appPrimaryDark font-black font-heading text-2xl flex items-center justify-center mx-auto border border-sky-500/20">
+          01
+        </div>
+        <h3 class="font-heading font-bold text-xl text-appText">Download Official APK</h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          Click the <strong class="text-slate-900">Download APK</strong> button. The official release APK (`t69esports-release.apk`) will begin downloading to your phone.
+        </p>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="app-card p-8 text-center space-y-4 relative">
+        <div class="w-16 h-16 rounded-2xl bg-sky-500/10 text-appPrimaryDark font-black font-heading text-2xl flex items-center justify-center mx-auto border border-sky-500/20">
+          02
+        </div>
+        <h3 class="font-heading font-bold text-xl text-appText">Allow Install from Source</h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          When prompted by Android, tap <strong class="text-slate-900">Settings</strong> and toggle ON <strong class="text-slate-900">Allow from this source</strong> for Chrome / your browser.
+        </p>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="app-card p-8 text-center space-y-4 relative">
+        <div class="w-16 h-16 rounded-2xl bg-emerald-500/10 text-emerald-600 font-black font-heading text-2xl flex items-center justify-center mx-auto border border-emerald-500/20">
+          03
+        </div>
+        <h3 class="font-heading font-bold text-xl text-appText">Open & Claim ₹50 Bonus</h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          Open T69 Esports, register your mobile number, claim your free <strong class="text-slate-900">₹50 welcome credit</strong>, and join your first custom room!
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Download Trigger Card -->
+    <div class="mt-12 app-card-blue p-8 sm:p-10 text-center space-y-5">
+      <h3 class="font-heading font-black text-2xl sm:text-3xl text-white">
+        Ready to Compete and Win Real Cash?
+      </h3>
+      <p class="text-sky-100 max-w-xl mx-auto text-sm sm:text-base font-medium">
+        Download India's cleanest and most secure esports app today. Verified tournaments, automated room passes, and instant UPI payouts.
+      </p>
+      <div class="pt-2">
+        <a href="download/t69esports-release.apk" download="t69esports-release.apk" class="download-trigger btn-app-white px-8 py-4 rounded-2xl text-base inline-flex items-center gap-3">
+          <i data-lucide="download" class="w-5 h-5 text-appPrimaryDark"></i>
+          <span>DOWNLOAD T69 ESPORTS APK (38 MB)</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section (Accordion) -->
+  <section id="faq" class="py-20 bg-slate-100/70 border-t border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center mb-14 space-y-3">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 text-appPrimaryDark font-bold text-xs uppercase tracking-wider">
+          <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
+          <span>GOT QUESTIONS?</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-black font-heading text-appText">
+          Frequently Asked Questions
+        </h2>
+      </div>
+
+      <div class="space-y-4" id="faqAccordion">
+        
+        <!-- Q1 -->
+        <div class="app-card overflow-hidden">
+          <button class="w-full p-6 text-left flex items-center justify-between font-heading font-bold text-base sm:text-lg text-appText hover:text-appPrimaryDark transition faq-toggle">
+            <span>Is T69 Esports free and safe to install?</span>
+            <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-200"></i>
+          </button>
+          <div class="px-6 pb-6 text-sm text-slate-600 leading-relaxed hidden faq-content">
+            Yes! T69 Esports is 100% safe, verified, and free of malware or intrusive ads. The APK is built securely and scanned against Google Play Protect guidelines.
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="app-card overflow-hidden">
+          <button class="w-full p-6 text-left flex items-center justify-between font-heading font-bold text-base sm:text-lg text-appText hover:text-appPrimaryDark transition faq-toggle">
+            <span>How do I receive my Custom Room ID and Password?</span>
+            <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-200"></i>
+          </button>
+          <div class="px-6 pb-6 text-sm text-slate-600 leading-relaxed hidden faq-content">
+            Once you register for any Free Fire or BGMI match, the Room ID and Password are automatically unlocked inside the app 15 minutes before the match start time. You will also receive an in-app notification.
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="app-card overflow-hidden">
+          <button class="w-full p-6 text-left flex items-center justify-between font-heading font-bold text-base sm:text-lg text-appText hover:text-appPrimaryDark transition faq-toggle">
+            <span>How fast are winning cash withdrawals?</span>
+            <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-200"></i>
+          </button>
+          <div class="px-6 pb-6 text-sm text-slate-600 leading-relaxed hidden faq-content">
+            Winning withdrawals are processed within 15 to 30 minutes directly to your provided UPI ID (PhonePe, Google Pay, Paytm) or Bank Account.
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="app-card overflow-hidden">
+          <button class="w-full p-6 text-left flex items-center justify-between font-heading font-bold text-base sm:text-lg text-appText hover:text-appPrimaryDark transition faq-toggle">
+            <span>What is the difference between Deposit Cash and Winning Cash?</span>
+            <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-200"></i>
+          </button>
+          <div class="px-6 pb-6 text-sm text-slate-600 leading-relaxed hidden faq-content">
+            Deposit Cash is added by you to participate in tournament lobbies. Winning Cash is earned exclusively by winning matches or per-kill bounties, and is 100% withdrawable at any time.
+          </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="app-card overflow-hidden">
+          <button class="w-full p-6 text-left flex items-center justify-between font-heading font-bold text-base sm:text-lg text-appText hover:text-appPrimaryDark transition faq-toggle">
+            <span>Can I pay using PhonePe, Google Pay, or Paytm?</span>
+            <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-200"></i>
+          </button>
+          <div class="px-6 pb-6 text-sm text-slate-600 leading-relaxed hidden faq-content">
+            Yes! Our 1-Tap UPI integration allows you to launch PhonePe, Google Pay, or Paytm directly from the app with pre-filled amounts, or scan our dynamic auto-amount QR code.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Community Support & Footer -->
+  <footer id="community" class="bg-slate-900 text-white pt-16 pb-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-slate-800">
+        
+        <!-- Brand Info -->
+        <div class="space-y-4">
+          <div class="flex items-center gap-3">
+            <img src="assets/t69_logo.png" alt="T69 Esports" class="w-10 h-10 object-contain rounded-xl" />
+            <span class="font-heading font-black text-2xl tracking-tight text-white">
+              T69 <span class="text-appPrimary">ESPORTS</span>
+            </span>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            India's premiere esports competitive platform for daily Free Fire & BGMI tournaments with automated room passes and instant UPI settlements.
+          </p>
+          <div class="flex items-center gap-3 text-appPrimary">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+            <span class="text-xs font-bold text-slate-300">All Servers Online & Operational</span>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="space-y-3">
+          <h4 class="font-heading font-bold text-base text-white">Quick Links</h4>
+          <ul class="space-y-2 text-xs text-slate-400 font-medium">
+            <li><a href="#features" class="hover:text-appPrimary transition">Features & Anti-Cheat</a></li>
+            <li><a href="#games" class="hover:text-appPrimary transition">Supported Tournaments</a></li>
+            <li><a href="#vault" class="hover:text-appPrimary transition">Arena Vault & UPI</a></li>
+            <li><a href="#install-guide" class="hover:text-appPrimary transition">How to Install APK</a></li>
+            <li><a href="#faq" class="hover:text-appPrimary transition">Player FAQ</a></li>
+          </ul>
+        </div>
+
+        <!-- Supported UPI Modes -->
+        <div class="space-y-3">
+          <h4 class="font-heading font-bold text-base text-white">Instant Payment Partners</h4>
+          <p class="text-xs text-slate-400">
+            Instant deposit & 15-minute cashouts supported via all standard Indian UPI applications:
+          </p>
+          <div class="flex flex-wrap gap-2 text-xs font-mono font-bold text-slate-300">
+            <span class="px-2.5 py-1 rounded bg-slate-800 border border-slate-700">🟣 PhonePe</span>
+            <span class="px-2.5 py-1 rounded bg-slate-800 border border-slate-700">🔵 Google Pay</span>
+            <span class="px-2.5 py-1 rounded bg-slate-800 border border-slate-700">⚡ Paytm</span>
+            <span class="px-2.5 py-1 rounded bg-slate-800 border border-slate-700">🇮🇳 BHIM / UPI</span>
+          </div>
+        </div>
+
+        <!-- 24/7 Support -->
+        <div class="space-y-3">
+          <h4 class="font-heading font-bold text-base text-white">Community & Support</h4>
+          <p class="text-xs text-slate-400">
+            Need help with a match or withdrawal? Join our official community:
+          </p>
+          <div class="space-y-2 pt-1">
+            <a href="https://chat.whatsapp.com" target="_blank" class="w-full py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center justify-center gap-2 transition">
+              <i data-lucide="message-circle" class="w-4 h-4"></i>
+              <span>Join WhatsApp Group</span>
+            </a>
+            <a href="https://discord.com" target="_blank" class="w-full py-2 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold flex items-center justify-center gap-2 transition">
+              <i data-lucide="message-square" class="w-4 h-4"></i>
+              <span>Join Discord Server</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <p>© 2026 T69 Esports India. All rights reserved.</p>
+        <p class="text-slate-400">Designed with modern neo-esports architecture.</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Interactive JavaScript -->
+  <script src="app.js"></script>
+</body>
+</html>
