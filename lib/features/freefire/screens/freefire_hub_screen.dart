@@ -84,8 +84,9 @@ class _FreeFireHubScreenState extends ConsumerState<FreeFireHubScreen> {
     // Fetch real taken slots from Supabase database (Zero fake data)
     final repo = ref.read(tournamentRepoProvider);
     Set<int> takenSlots = {};
+    List<Map<String, dynamic>> registrations = [];
     try {
-      final registrations = await repo.fetchTournamentRegistrations(tournament.id);
+      registrations = await repo.fetchTournamentRegistrations(tournament.id);
       takenSlots = registrations.map((r) => (r['slot_number'] as num?)?.toInt()).whereType<int>().toSet();
     } catch (_) {
       takenSlots = {};
