@@ -105,15 +105,15 @@ class _WalletModalState extends ConsumerState<WalletModal> {
     PaymentGatewayRoute(
       id: 'gateway_1',
       name: 'Google Pay / ICICI Gateway',
-      upiId: 't69esports@okaxis',
-      payeeName: 'T69 Team',
+      upiId: 'chouhanjatinsingh1-2@okicici',
+      payeeName: 'Jatin Singh',
       aid: 'uGICAgMC-gZK9PA',
     ),
     PaymentGatewayRoute(
       id: 'gateway_2',
       name: 'UPI Express Channel',
-      upiId: 't69team@fam',
-      payeeName: 'T69 Team',
+      upiId: 'singht69@fam',
+      payeeName: 'Jatin Singh',
     ),
   ];
 
