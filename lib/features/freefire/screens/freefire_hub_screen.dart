@@ -58,18 +58,23 @@ class _FreeFireHubScreenState extends ConsumerState<FreeFireHubScreen> {
     }
 
     final profile = ref.read(authControllerProvider).value;
-    if (tournament.isUserKickedOrBanned(profile?.id, profile?.gameUid)) {
-      final kickInfo = tournament.getKickDetailsForUser(profile?.id, profile?.gameUid);
+    if (profile == null) {
+      UiHelpers.showErrorBanner(context, 'Please log in to your account first to register for this lobby.');
+      return;
+    }
+
+    if (tournament.isUserKickedOrBanned(profile.id, profile.gameUid)) {
+      final kickInfo = tournament.getKickDetailsForUser(profile.id, profile.gameUid);
       final reason = kickInfo?['reason'] ?? 'Violation of lobby rules';
       final role = kickInfo?['role'] ?? 'Admin';
       UiHelpers.showErrorBanner(context, 'Access Denied: You were removed from this lobby by $role ($reason). Re-joining is blocked.');
       return;
     }
 
-    final walletBalance = profile?.walletBalance ?? 0.0;
+    final walletBalance = profile.walletBalance;
     final canAfford = walletBalance >= tournament.entryFee;
-    final ignController = TextEditingController(text: profile?.gameIgn ?? '');
-    final uidController = TextEditingController(text: profile?.gameUid ?? '');
+    final ignController = TextEditingController(text: profile.gameIgn ?? '');
+    final uidController = TextEditingController(text: profile.gameUid ?? '');
     final teamNameController = TextEditingController();
     final p2IgnController = TextEditingController();
     final p2UidController = TextEditingController();
@@ -78,8 +83,13 @@ class _FreeFireHubScreenState extends ConsumerState<FreeFireHubScreen> {
 
     // Fetch real taken slots from Supabase database (Zero fake data)
     final repo = ref.read(tournamentRepoProvider);
-    final registrations = await repo.fetchTournamentRegistrations(tournament.id);
-    final takenSlots = registrations.map((r) => (r['slot_number'] as num?)?.toInt()).whereType<int>().toSet();
+    Set<int> takenSlots = {};
+    try {
+      final registrations = await repo.fetchTournamentRegistrations(tournament.id);
+      takenSlots = registrations.map((r) => (r['slot_number'] as num?)?.toInt()).whereType<int>().toSet();
+    } catch (_) {
+      takenSlots = {};
+    }
 
     final is1v1 = tournament.format.toLowerCase().contains('1v1');
     final is2v2 = tournament.format.toLowerCase().contains('2v2');
@@ -2328,7 +2338,17 @@ class _FreeFireHubScreenState extends ConsumerState<FreeFireHubScreen> {
                                         }
                                       : (!isMatchLive && !isMatchCompleted && isUnlocked && !isFull
                                           ? () => _showLobbyRegistrationModal(context, t)
-                                          : null),
+                                          : () {
+                                              if (!isUnlocked) {
+                                                UiHelpers.showInfoBanner(context, '🔒 Lobby Locked: Unlocks automatically when the previous lobby fills or starts.');
+                                              } else if (isFull) {
+                                                UiHelpers.showErrorBanner(context, '⚠️ Lobby Full: All ${t.maxSlots} slots are taken.');
+                                              } else if (isMatchLive) {
+                                                UiHelpers.showErrorBanner(context, '🔒 Match is currently LIVE in Free Fire. Registrations closed.');
+                                              } else if (isMatchCompleted) {
+                                                UiHelpers.showInfoBanner(context, '🏁 This tournament match has already ended.');
+                                              }
+                                            }),
                             ),
                           ],
                         ),
